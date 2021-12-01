@@ -1,4 +1,4 @@
-# mudocoProject
+# mujocoProject
 
 Installation Instructions
 
