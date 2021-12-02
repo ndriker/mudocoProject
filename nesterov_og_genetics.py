@@ -20,7 +20,7 @@ FIRST_GENERATION_SIZE = 1000
 DEFAULT_NEXT_GENERATION_SIZE = 500
 NEXT_GENERATION_SIZE = DEFAULT_NEXT_GENERATION_SIZE
 
-NUM_GENERATIONS = 250
+NUM_GENERATIONS = 100
 DECIMAL_PERISH = 0.6
 
 DEFAULT_CHANCE_OF_MUTATION = 0.25
@@ -31,7 +31,6 @@ NUM_EQUAL_MAX_REWARDS = 0
 
 # ENVIRONMENT SETUP
 np.random.seed(1)
-random.seed(1)
 # env = gym.make('Ant-v2')
 env = gym.make('Humanoid-v2')
 # env = gym.make('HalfCheetah-v2')
@@ -189,19 +188,15 @@ def create_offspring(parents, best):
     offspring.append(best)
     
     for i in range(NEXT_GENERATION_SIZE-1):
-        conditions_met = False
-        while (not conditions_met):
-            f_parent_ind = random.randint(0, len(parents) - 1)
-            s_parent_ind = random.randint(0, len(parents) - 1)
+        f_parent_ind = random.randint(0, len(parents) - 1)
+        s_parent_ind = random.randint(0, len(parents) - 1)
         
-
-            f_parent = parents[f_parent_ind]
-            s_parent = parents[s_parent_ind]
-            if (f_parent.cand_num != s_parent.cand_num):        
-                child = f_parent + s_parent
-                #print(type(child))
-                offspring.append(child)
-                conditions_met = True
+        f_parent = parents[f_parent_ind]
+        s_parent = parents[s_parent_ind]
+        
+        child = f_parent + s_parent
+        #print(type(child))
+        offspring.append(child)
 
     return offspring
 
