@@ -24,7 +24,33 @@ sudo apt install patchelf
 sudo apt install parseelf
 ```
 
-Install JupyterLab (or Jupyter Notebook)
+Install Python dependencies
 ```
-pip3 install jupyterlab
+pip3 install -r requirements.txt
+```
+
+If any dependencies are missing, use pip3 install to install them.
+
+To run genetic algorithm and save results:
+```
+cd ga
+python3 nesterov_og_genetics.py
+```
+
+To view results of genetic algorithm:
+```
+cd ga
+python3 bestAction.py
+```
+
+To run reinforcement learning tuning:
+```
+cd rl
+python3 traintune.py
+```
+To run training for reinforcement learning for Half Cheetah and Humanoid RL and save results:
+```
+cd rl
+python3 halfcheetah.py
+python3 humanoid_RL.py
 ```
