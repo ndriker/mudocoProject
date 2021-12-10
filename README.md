@@ -37,20 +37,21 @@ cd ga
 python3 nesterov_og_genetics.py
 ```
 
-To view results of genetic algorithm:
-```
-cd ga
-python3 bestAction.py
-```
-
 To run reinforcement learning tuning:
 ```
 cd rl
 python3 traintune.py
 ```
+
 To run training for reinforcement learning for Half Cheetah and Humanoid RL and save results:
 ```
 cd rl
 python3 halfcheetah.py
 python3 humanoid_RL.py
+```
+
+To view results of genetic algorithm or reinforcement learning, change the bestAction.py to read the generated results file and then run:
+```
+cd results
+python3 bestAction.py
 ```
