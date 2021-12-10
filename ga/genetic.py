@@ -103,40 +103,6 @@ class Candidate:
                     else:
                         offspring.add_move(self.moves[i])            
         return offspring
-#     def __add__(self, other):
-#         # mates self with other, produces offspring
-#         offspring = Candidate(self.action_len, self.gen + 1)
-        
-#         split_point = (int) (self.action_len/2)
-        
-#         # coin flip
-        
-        
-#         if (np.random.choice([True, False])):
-#             for i in range(self.action_len):
-#                 mutate = True if (random.random() <= CHANCE_OF_MUTATION) else False
-
-#                 if (mutate):
-#                     #print("MUTATING")
-#                     offspring.add_move(generate_move())
-#                 else:
-#                     if (i % 4 == 0 or i % 4 == 1):
-#                           offspring.add_move(self.moves[i])
-#                     else:
-#                           offspring.add_move(other.moves[i])
-#         else:
-#             for i in range(self.action_len):
-#                 mutate = True if (random.random() <= CHANCE_OF_MUTATION) else False
-
-#                 if (mutate):
-#                     #print("MUTATING")                    
-#                     offspring.add_move(generate_move())
-#                 else:                
-#                     if (i % 4 == 0 or i % 4 == 1):
-#                         offspring.add_move(other.moves[i])
-#                     else:
-#                         offspring.add_move(self.moves[i])            
-#         return offspring                
         
 def generate_move():
     return np.random.uniform(low=-1, high=1, size=act_dim)
@@ -156,39 +122,23 @@ def generate_first_generation():
         population.append(generate_candidate())
     return population
 
-# def generate_first_generation():
-#     population = []
-#     cand = generate_candidate()
-#     for i in range(FIRST_GENERATION_SIZE):
-#         population.append(cand)
-#     return population
-
 def perform_natural_selection(current_population):
     parents = []
     NUM_PERISH = (int) (NEXT_GENERATION_SIZE * DECIMAL_PERISH)
 
     print("LEN CURRENT POPULATION", len(current_population))
-    #print(current_population)
     sorted_by_reward = sorted(current_population, key=lambda cand: cand.reward) 
-    #print("SORTED LENGTH", len(sorted_by_reward))
     
-    #for i in range(len(sorted_by_reward)):
-    #    print(sorted_by_reward[i])
     print("LEN SORTED BY REWARD", len(sorted_by_reward))
     selected = sorted_by_reward[NUM_PERISH:]
-    #print("SELECTED LENGTH", len(selected))
-    #for i in range(len(selected)):
-    #    print(selected[i])
     if (len(selected) == 0):
         print("\n\n\n SOMETHING WENT WRONG \n\n\n")
     best = selected[-1]
-    #print("BEST", best)
     num_to_add = 1
     for candidate in selected:
         for i in range(num_to_add):
             parents.append(candidate)
         num_to_add += 1
-    #print("PARENTS LENGTH", len(parents))
     random.shuffle(parents)
     return parents, best
 
@@ -207,7 +157,6 @@ def create_offspring(parents, best):
             s_parent = parents[s_parent_ind]
             if (f_parent.cand_num != s_parent.cand_num):        
                 child = f_parent + s_parent
-                #print(type(child))
                 offspring.append(child)
                 conditions_met = True
 
@@ -242,44 +191,6 @@ def update_after_stagnation():
         NEXT_GENERATION_SIZE = DEFAULT_NEXT_GENERATION_SIZE
 
 
-# def update_params_after_gen(generation):
-#     global NEXT_GENERATION_SIZE
-#     global CHANCE_OF_MUTATION
-#     global DEFAULT_CHANCE_OF_MUTATION
-    
-#     if (generation % 25 == 0):
-#         DEFAULT_CHANCE_OF_MUTATION = DEFAULT_CHANCE_OF_MUTATION / 1.1
-        
-#     NEXT_GENERATION_SIZE = (int) (NEXT_GENERATION_SIZE * 0.8)
-
-#     if (NEXT_GENERATION_SIZE < 200):
-#         NEXT_GENERATION_SIZE = 250
-
-#     CHANCE_OF_MUTATION = CHANCE_OF_MUTATION / 1.1
-
-# def update_after_stagnation():
-#     # update mutation rate after stagnation
-#     global CHANCE_OF_MUTATION
-#     global DEFAULT_CHANCE_OF_MUTATION
-#     global NEXT_GENERATION_SIZE
-#     global DEFAULT_NEXT_GENERATION_SIZE    
-#     global DECIMAL_PERISH
-
-#     CHANCE_OF_MUTATION = CHANCE_OF_MUTATION + 0.05
-    
-#     current_gen_size = NEXT_GENERATION_SIZE
-    
-#     NEXT_GENERATION_SIZE = (int) (NEXT_GENERATION_SIZE + 0.5*NEXT_GENERATION_SIZE)
-
-#     if (NEXT_GENERATION_SIZE > DECIMAL_PERISH * current_gen_size):
-#         NEXT_GENERATION_SIZE = (int) (current_gen_size *1.2 - 1)
-    
-#     if (CHANCE_OF_MUTATION > DEFAULT_CHANCE_OF_MUTATION):
-#         CHANCE_OF_MUTATION = DEFAULT_CHANCE_OF_MUTATION * 0.75
-    
-#     if (NEXT_GENERATION_SIZE > DEFAULT_NEXT_GENERATION_SIZE):
-#         NEXT_GENERATION_SIZE = DEFAULT_NEXT_GENERATION_SIZE
-
 
 def evolve():
     global PREVIOUS_MAX_REWARD
@@ -306,21 +217,11 @@ def evolve():
                 cand_done = done
                 total_reward += reward
                 moves_taken += 1
-                #print(moves_taken, candidate.action_len, len(candidate.moves))
             candidate.set_reward(total_reward)
-            #env.reset_model()
 
         parents, best = perform_natural_selection(population)
         population = create_offspring(parents, best)
-        
-#         if (PREVIOUS_MAX_REWARD == best.reward):
-#             NUM_EQUAL_MAX_REWARD += 1
-#         else:
-#             PREVIOUS_MAX_REWARD = best.reward
-#             NUM_EQUAL_MAX_REWARD = 0
-        
-#         if (NUM_EQUAL_MAX_REWARD >= 3):
-#             update_after_stagnation()
+
         if (PREVIOUS_MAX_REWARD == best.reward):
             NUM_EQUAL_MAX_REWARD += 1
             update_params_after_gen(generation)
@@ -334,11 +235,7 @@ def evolve():
             update_after_stagnation()
                         
 
-
-        
-        #sorted_by_reward = sorted(population, key=lambda cand: cand.reward)
-        #print("best of offspring", sorted_by_reward[-1])
-
+       
         print('GENERATION : ', generation, ', BEST : ', best, 'CHANCE OF MUTATION : ', CHANCE_OF_MUTATION, 'NEXT GEN SIZE : ', NEXT_GENERATION_SIZE)
         f = open("results.txt", "a")
         strout = str(best.cand_num) + ":" + str(best.reward) + "\n"
