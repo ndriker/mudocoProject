@@ -43,6 +43,11 @@ cd rl
 python3 traintune.py
 ```
 
+To view the tuning results on Tensorboard, replace PATH with the file path leading to it and my_trainble with the name of the tune directory which could be edited in traintune.py on line 17 and open the link it provides:
+```
+tensorboard --logdir /PATH/my_trainable
+```
+
 To run training for reinforcement learning for Half Cheetah and Humanoid RL and save results:
 ```
 cd rl
